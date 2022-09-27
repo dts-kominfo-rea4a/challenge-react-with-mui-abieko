@@ -2,54 +2,112 @@
 // https://mui.com/material-ui/react-text-field/#basic-textfield
 // dan Card
 // https://mui.com/material-ui/react-card/#basic-card
-import { Button, Card, CardActions, CardContent, FormControl, TextField } from "@mui/material";
-import { useState } from "react";
+import {
+    Box,
+    Card,
+    CardActions,
+    CardContent,
+    Button,
+    TextField
+} from '@mui/material'
+import AddIcon from '@mui/icons-material/Add';
+import {useState} from "react";
 
-const ContactForm = ({ addContact }) => {
+const ContactForm = ({AddContact}) => {
     // Form berisi name, phone, email, dan photo url
     // Buatlah state newContact berupa objek sesuai dengan data yang ada
-
-    const initialState = {
+    const [newContact, setNewContact] = useState({
         name: "",
-        email: "",
         phone: "",
-        photo: "",
+        email: "",
+        photo: ""
+    })
+
+    const onNameChangeHandler = (event) => {
+        setNewContact((state) => ({
+            ...state,
+            name: event.target.value
+        }));
+    };
+
+    const onPhoneChangeHandler = (event) => {
+        setNewContact((state) => ({
+            ...state,
+            phone: event.target.value
+        }));
     }
 
-    const [contact, setContact] = useState(initialState)
+    const onEmailChangeHandler = (event) => {
+        setNewContact((state) => ({
+            ...state,
+            email: event.target.value
+        }));
+    }
 
-    const handleChange = (e) => setContact({ ...contact, [e.target.name]: e.target.value })
+    const onPhotoChangeHandler = (event) => {
+        setNewContact((state) => ({
+            ...state,
+            photo: event.target.value
+        }));
+    }
 
-    const handleSubmit = (e) => {
-        e.preventDefault()
-        addContact(contact)
-        setContact(initialState)
+    const onSubmitHandler = (event) => {
+        event.preventDefault();
+        AddContact(newContact);
+        event.target.reset();
     }
 
     return (
-        <>
-            <Card sx={{ margin: "auto", backgroundColor: "#F3F1EB" }}>
-                <form onSubmit={handleSubmit}>
-                    <CardContent>
-                        <FormControl fullWidth margin="normal">
-                            <TextField required id="filled-basic" variant="filled" name="name" label="Name" value={contact.name} onChange={handleChange} />
-                        </FormControl>
-                        <FormControl fullWidth margin="normal">
-                            <TextField required id="filled-basic" variant="filled" name="phone" label="Phone" value={contact.phone} onChange={handleChange} />
-                        </FormControl>
-                        <FormControl fullWidth margin="normal">
-                            <TextField required id="filled-basic" variant="filled" name="email" label="email" value={contact.email} onChange={handleChange} />
-                        </FormControl>
-                        <FormControl fullWidth margin="normal">
-                            <TextField required id="filled-basic" variant="filled" name="photo" label="photo" value={contact.photo} onChange={handleChange} />
-                        </FormControl>
-                    </CardContent>
-                    <CardActions>
-                        <Button size="small" type="submit" color="success">ADD NEW</Button>
-                    </CardActions>
-                </form>
-            </Card>
-        </>
+        <Card
+            sx={{minWidth: 500, height: 'fit-content'}}
+            component={"form"}
+            onSubmit={onSubmitHandler}
+        >
+            <CardContent>
+                <Box sx={{display: 'grid', rowGap: 2}}>
+                    <TextField
+                        required
+                        sx={{width: '100%'}}
+                        size="small"
+                        label="Name"
+                        variant="filled"
+                        onChange={onNameChangeHandler}
+                    />
+                    <TextField
+                        required
+                        sx={{width: '100%'}}
+                        size="small"
+                        label="Phone"
+                        variant="filled"
+                        onChange={onPhoneChangeHandler}
+                    />
+                    <TextField
+                        required
+                        sx={{width: '100%'}}
+                        size="small"
+                        label="Email"
+                        variant="filled"
+                        onChange={onEmailChangeHandler}
+                    />
+                    <TextField
+                        required
+                        sx={{width: '100%'}}
+                        size="small"
+                        label="Photo URL"
+                        variant="filled"
+                        onChange={onPhotoChangeHandler}
+                    />
+                </Box>
+            </CardContent>
+            <CardActions sx={{
+                // marginLeft: 1,
+                marginBottom: 1
+            }}>
+                <Button variant="contained" startIcon={<AddIcon/>} type={"submit"} fullWidth>
+                    Add New Contact
+                </Button>
+            </CardActions>
+        </Card>
     );
 }
 
