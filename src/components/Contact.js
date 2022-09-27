@@ -2,24 +2,35 @@
 // Contact component dapat berupa MUI ListItem
 // https://mui.com/material-ui/react-list/#folder-list
 import React from 'react';
-import { Avatar, ListItem, ListItemAvatar, Typography } from "@mui/material";
-import { Box } from "@mui/system"
+import {
+    List,
+    ListItem,
+    ListItemText,
+    ListItemAvatar,
+    Avatar,
+    Typography
+} from '@mui/material'
+import {
+    Image as ImageIcon,
+} from '@mui/icons-material'
 
 // Kalian bisa membuat CSS sendiri di src/components/Contact.css
 // atau langsung tambahkan dengan sx={{}}
-const Contact = ({ data }) => {
+const Contact = ({data}) => {
     // Contact berisi foto, nama, telepon, dan email
-    const {name, phone, email, photo} = data
     return (
-        <ListItem sx={{ paddingTop:"10px", paddingBottom:"10px" }} divider>
+        <ListItem>
             <ListItemAvatar>
-                <Avatar alt="Photo Contact" src={photo} sx={{ width:80, height:80 }} />
+                <Avatar alt={data.name} src={data.photo} sx={{width: 50, height: 50}}/>
             </ListItemAvatar>
-            <Box sx={{ marginLeft: "15px" }} textAlign="left">
-                <Typography variant="body1">{name}</Typography>
-                <Typography variant="subtitle1" color="text.secondary">{phone}</Typography>
-                <Typography variant="subtitle1" color="text.secondary">{email}</Typography>
-            </Box>
+            <ListItemText
+                sx={{ml: 2}}
+            >
+                <Typography variant='body'>{data.name}</Typography>
+                <Typography variant='body' component="div">{data.phone}</Typography>
+                <Typography variant='body' component="div"
+                            color="text.secondary">{data.email}</Typography>
+            </ListItemText>
         </ListItem>
     );
 };
